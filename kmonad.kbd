@@ -1,0 +1,62 @@
+(defcfg
+  ;; For Linux
+  input  (device-file "/dev/input/event20")
+  output (uinput-sink "My KMonad output")
+  ;; This option tells KMonad to let non-configured keys act normal
+  fallthrough true
+)
+
+;; Defines the source keys, the keys that will be remaped
+(defsrc
+    q    w    e    r    t    y    u    i    o    p
+    a    s    d    f    g    h    j    k    l    ;
+    lsft    z    x    c    v    b    n    m    ,    .    /    
+    lctl lmet lalt           spc            ralt rmet cmp  rctl
+)
+
+  ;; Remaps the keys
+(defalias
+    met_a (tap-hold-next-release 200 s lalt)
+    alt_s (tap-hold-next-release 200 f lctl)
+    ctl_d (tap-hold-next-release 200 d lsft)
+    sft_f (tap-hold-next-release 200 spc lmet)
+
+   ;; met_m (tap-hold-next-release 200 m lmet)
+    sft_, (tap-hold-next-release 200 , rsft)
+    ctl_m (tap-hold-next-release 200 m rctl)
+    alt_. (tap-hold-next-release 200 . lalt)
+  
+    arr (tap-hold-next-release 200 g (layer-toggle arrows))
+    meta (tap-hold-next-release 200 e (layer-toggle wrks))
+    lng (tap-hold-next-release 200 i A-S)
+  ;;  cpy (tap-hold-next-release 200 c C-c)
+  ;;  pst (tap-hold-next-release 200 v C-v)
+  ;;  und (tap-hold-next-release 200 z C-z)
+  ;;  cut (tap-hold-next-release 200 x C-x)
+
+    slm (sticky-key 1000 lmet)
+    sls (sticky-key 1000 lsft)
+    slc (sticky-key 1000 lctl)
+    sla (sticky-key 1000 lalt)
+)
+
+(deflayer homerowmods
+    q    w    @meta    r    t    y    u    @lng    o    p
+    a   @met_a   @ctl_d   @alt_s   @arr   h   j   k   l   ;
+    @sls    z   x   c   v   b   n   @ctl_m   @sft_,   @alt_.   /
+    @slc @slm @sla           @sft_f           ralt rmet cmp rctl
+)
+
+(deflayer arrows
+    q    w    e    r    t    y    u    i    o    p
+    a    s    d    f    g   left   down   up   right    ;
+    lsft    z    x    c    v    b    n    m    ,    .    /
+    lctl lmet lalt           spc            ralt rmet cmp  rctl
+)
+
+(deflayer wrks
+    q    w    e    r    t    y    M-5    M-6    M-7    p
+    a    s    d    f    g    h    M-1    M-2    M-3    M-4
+    lsft    z    x    c    v    b    n    M-8    M-9    M-0    /
+    lctl lmet lalt           spc            ralt rmet cmp  rctl
+)
